@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const validate=require("validator")
-
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+const secretkey = process.env.SECRET_KEY
 const userSchema = mongoose.Schema({
     firstName: {
         type: String,
@@ -68,6 +70,8 @@ userSchema.methods.getJWT=async function(){ //write function like this only not 
 }
 
 userSchema.methods.validatePassword=async function (passwordInputByUser){
+    console.log("passwordInputByUser",passwordInputByUser);
+    
     const user=this;
     const hashedpassword= user.password
     let isPasswordValid = await bcrypt.compare(passwordInputByUser,hashedpassword );
